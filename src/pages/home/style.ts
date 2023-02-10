@@ -8,7 +8,8 @@ export const useStyles = createStyles((theme) => ({
     justifyContent: 'space-between'
   },
   img: {
-    width: '100%',
+    width: '70%',
     objectFit: 'cover',
+    borderRadius: 22,
   }
 }));

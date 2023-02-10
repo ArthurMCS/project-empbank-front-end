@@ -7,7 +7,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <MantineProvider withGlobalStyles withNormalizeCSS
       theme={{
-        fontFamily: 'Open Sans',
+        fontFamily: 'Open sans, sans-serif',
         fontSizes: {
           xs: 10,
           sm: 12,

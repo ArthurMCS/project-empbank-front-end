@@ -7,7 +7,7 @@ export function Home() {
   const { classes } = useStyles();
   return (
     <div className={classes.container}>
-      <img src={HeroImg}/>
+      <img src={HeroImg}  alt="casal olhando para um tablet" className={classes.img}/>
       <MainForm />
     </div>
   );

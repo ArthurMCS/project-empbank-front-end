@@ -1,13 +1,15 @@
 import { Button, PasswordInput, Stack, Text, TextInput } from "@mantine/core";
 import { useStyles } from "./style";
+import logo from '../../assets/logoHorizontal.png'
 
 export default function MainForm() {
     const { classes } = useStyles()
     return (
         <form  className={classes.form}>
-            <Text size="xl" weight={700}>
+            <img src={logo} alt="Logo Empbank"/>
+            <h1 className={classes.title}>
                 Faça seu cadastro
-            </Text>
+            </h1>
             <Stack>
                 <TextInput
                     placeholder="Insira seu nome completo"
@@ -27,8 +29,12 @@ export default function MainForm() {
                     radius="md"
                     size="lg"
                 />
-                <Button>FAZER CADASTRO</Button>
-                <Button>JÁ TENHO CONTA</Button>
+                <Button className={classes.registerButton}>
+                    FAZER CADASTRO
+                </Button>
+                <Button className={classes.loginButton}>
+                    JÁ TENHO  UMA CONTA
+                </Button>
             </Stack>
         </form>
     )
