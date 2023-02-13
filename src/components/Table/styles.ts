@@ -1,7 +1,7 @@
 import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles((theme) => ({
-    tr: {
+   /*  tr: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-around',
@@ -9,5 +9,5 @@ export const useStyles = createStyles((theme) => ({
         border: '1px solid #CED4DA',
         marginBottom: '16px',
         height: 66,
-    },
+    }, */
 }));

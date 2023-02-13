@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Button, Header, TextInput } from '@mantine/core';
 import { useStyles } from './styles';
 import logo from '../../assets/logoHorizontal.png';
@@ -6,6 +6,7 @@ import Cards from '../../components/Cards';
 import { FiSearch } from 'react-icons/fi';
 import { useForm } from '@mantine/form';
 import TransactionsTable from '../../components/Table';
+import axios from 'axios';
 
 type inputDataForm = {
     search: string,
@@ -14,12 +15,18 @@ type inputDataForm = {
 export default function Dashboard() {
   const { classes } = useStyles();
 
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem('token') || '')
+    axios.get('https://project-empbank-api.vercel.app/transactions', {
+        headers: {
+            'authorization': token
+          }
+    }).then(response => { console.log(response)} )
+  }, [])
+
   const form = useForm({
     initialValues: {
        search: '',
-    },
-    validate: {
-        search: (value) => value.length > 2 ? null : 'Valor inválido'
     }
   })
 
@@ -57,6 +64,7 @@ export default function Dashboard() {
                     leftIcon={<FiSearch />}
                     size="lg"
                     type="submit"
+                    disabled={form.values.search.length === 0}
                 >
                     Buscar
                 </Button>

@@ -1,5 +1,5 @@
-import { Table } from '@mantine/core'
 import React from 'react'
+import { Table } from '@mantine/core'
 import { useStyles } from './styles';
 
 const elements = [
@@ -15,7 +15,7 @@ export default function TransactionsTable() {
 
 
     const rows = elements.map((element) => (
-        <tr key={element.name} className={classes.tr}>
+        <tr key={element.name}>
           <td>{element.name}</td>
           <td>{element.position}</td>
           <td>{element.symbol}</td>
@@ -30,7 +30,9 @@ export default function TransactionsTable() {
             verticalSpacing="lg" 
             fontSize="xs"
         >
-            {rows}
+           <tbody>
+                {rows}
+           </tbody>
         </Table>
     )
 }

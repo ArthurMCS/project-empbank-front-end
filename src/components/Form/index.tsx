@@ -1,9 +1,10 @@
-import { Button, PasswordInput, Stack, Text, TextInput } from "@mantine/core";
+import { Button, LoadingOverlay, PasswordInput, Stack, Text, TextInput } from "@mantine/core";
 import { useStyles } from "./style";
 import logo from '../../assets/logoHorizontal.png';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import axios from "axios";
+import { useState } from "react";
 
 interface LoginFormData {
     email: string,
@@ -16,8 +17,9 @@ interface RegisterFormData extends LoginFormData {
 
 
 export default function MainForm() {
-    const { classes } = useStyles()
-    const { pathname } = useLocation()
+    const { classes } = useStyles();
+    const { pathname } = useLocation();
+    const [visible, setVisible] = useState(false);
 
     const navigate = useNavigate()
 
@@ -50,19 +52,51 @@ export default function MainForm() {
         },
     });
 
-    const handleRegister = (data: RegisterFormData) => {
-        console.log(data)
-    };
+    const handleRegister = async ({email, password}: RegisterFormData) => {
+        setVisible(true);
 
-    const handleLogin = async ({email, password}: LoginFormData) => {
-            const response = await axios.post('http://localhost:3333/login', {
+        try {
+            
+            const response = await axios.post('https://project-empbank-api.vercel.app/register', {
                 email,
                 password
             })
 
-           if(response.status === 201) {
-                navigate(`/dashboard`)
-           }
+            setVisible(false)
+
+            if(response.status === 201) {
+                    console.log(response.data)
+                    navigate(`/dashboard`)
+            }
+
+        } catch (error) {
+            setVisible(false)
+            console.error(error)
+        }
+
+    };
+
+    const handleLogin = async ({email, password}: LoginFormData) => {
+        setVisible(true);
+
+        try {
+            
+            const response = await axios.post('https://project-empbank-api.vercel.app/login', {
+                email,
+                password
+            })
+
+            setVisible(false)
+
+            if(response.status === 201) {
+                    localStorage.setItem('token', JSON.stringify(response.data.token));
+                    navigate(`/dashboard`)
+            }
+
+        } catch (error) {
+            setVisible(false)
+            console.error(error)
+        }
     }
 
 
@@ -73,6 +107,7 @@ export default function MainForm() {
                 pathname === '/login' ? handleLogin(values) : handleRegister(values)
             )}
         >
+            <LoadingOverlay visible={visible} overlayBlur={2} />
             <img src={logo} alt="Logo Empbank"/>
             <h1 className={classes.title}>
                 Faça seu cadastro
