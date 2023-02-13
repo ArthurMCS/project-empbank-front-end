@@ -1,9 +1,12 @@
+import ContextProvider from "./context"
 import Routes from "./routes"
 
 
 function App() {
   return (
-    <Routes />
+    <ContextProvider>
+      <Routes />
+    </ContextProvider>
   )
 }
 

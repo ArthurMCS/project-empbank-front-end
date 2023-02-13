@@ -65,8 +65,7 @@ export default function MainForm() {
             setVisible(false)
 
             if(response.status === 201) {
-                    console.log(response.data)
-                    navigate(`/dashboard`)
+                    navigate('/login')
             }
 
         } catch (error) {
@@ -110,7 +109,7 @@ export default function MainForm() {
             <LoadingOverlay visible={visible} overlayBlur={2} />
             <img src={logo} alt="Logo Empbank"/>
             <h1 className={classes.title}>
-                Faça seu cadastro
+                {pathname === '/' ? 'Faça seu cadastro' : 'Faça seu login'}
             </h1>
             <Stack>
                 {
