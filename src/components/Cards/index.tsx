@@ -1,81 +1,83 @@
 import { Flex, Text, Box } from '@mantine/core';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useStyles } from './styles';
 import upArrow from '../../assets/arrow-circle-up.png';
 import upDown from '../../assets/arrow-circle-down.png';
 import moneyIcon from '../../assets/moneyIcon.png';
+import { context } from '../../context';
 
 export default function Cards() {
-    const { classes } = useStyles()
-  return (
-    <Flex
-        h={200}
-        gap="md"
-        justify="center"
-        align="center"
-        direction="row"
-    >
-        <Box 
-            className={classes.card}
+    const { classes } = useStyles();
+    const {totalCashIn, totalCashOut, totalCash} = useContext(context);
+    return (
+        <Flex
+            h={200}
+            gap="md"
+            justify="center"
+            align="center"
+            direction="row"
         >
-            <Flex
-                align="center"
-                justify="space-between"
+            <Box 
+                className={classes.card}
             >
-                <Text>
-                    Entradas
-                </Text>
-                <img src={upArrow} />
-            </Flex>
-            <Text
-                weight={700}
-                fz={32}
-            >
-                R$ 10.0000,00
-            </Text>
-        </Box>
-        <Box
-            className={classes.card}
-        >
-            <Flex
-                align="center"
-                justify="space-between"
-            >
-                <Text>
-                    Saídas
-                </Text>
-                <img src={upDown} />
-            </Flex>
-            <Text
-                weight={700}
-                fz={32}
-            >
-                R$ 4.0000,00
-            </Text>
-        </Box>
-        <Box
-            className={classes.card}
-            bg="#2D303D"
-        >   
-            <Flex
-                align="center"
-                justify="space-between"
-            >
-                <Text
-                    color="white"
+                <Flex
+                    align="center"
+                    justify="space-between"
                 >
-                    Total
+                    <Text>
+                        Entradas
+                    </Text>
+                    <img src={upArrow} />
+                </Flex>
+                <Text
+                    weight={700}
+                    fz={32}
+                >
+                    R$ {totalCashIn}
                 </Text>
-                <img src={moneyIcon} />
-            </Flex>  
-            <Text
-                weight={700}
-                fz={32}
-                color="#FFF"
+            </Box>
+            <Box
+                className={classes.card}
             >
-                R$ 6.0000,00
-            </Text>
-        </Box>
-    </Flex>
-  )
+                <Flex
+                    align="center"
+                    justify="space-between"
+                >
+                    <Text>
+                        Saídas
+                    </Text>
+                    <img src={upDown} />
+                </Flex>
+                <Text
+                    weight={700}
+                    fz={32}
+                >
+                    R$ {totalCashOut}
+                </Text>
+            </Box>
+            <Box
+                className={classes.card}
+                bg="#2D303D"
+            >   
+                <Flex
+                    align="center"
+                    justify="space-between"
+                >
+                    <Text
+                        color="white"
+                    >
+                        Total
+                    </Text>
+                    <img src={moneyIcon} />
+                </Flex>  
+                <Text
+                    weight={700}
+                    fz={32}
+                    color="#FFF"
+                >
+                    R$ {totalCash}
+                </Text>
+            </Box>
+        </Flex>
+    )
 }
