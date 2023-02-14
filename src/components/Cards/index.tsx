@@ -33,7 +33,7 @@ export default function Cards() {
                     weight={700}
                     fz={32}
                 >
-                    R$ {totalCashIn}
+                    R$ {totalCashIn.toFixed(2)}
                 </Text>
             </Box>
             <Box
@@ -52,7 +52,7 @@ export default function Cards() {
                     weight={700}
                     fz={32}
                 >
-                    R$ {totalCashOut}
+                    R$ {totalCashOut.toFixed(2)}
                 </Text>
             </Box>
             <Box
@@ -75,7 +75,7 @@ export default function Cards() {
                     fz={32}
                     color="#FFF"
                 >
-                    R$ {totalCash}
+                    R$ {totalCash.toFixed(2)}
                 </Text>
             </Box>
         </Flex>

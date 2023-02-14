@@ -9,33 +9,20 @@ import TransactionsTable from '../../components/Table';
 import axios from 'axios';
 import NewTransactionModal from '../../components/NewTransactionModal';
 import { context } from '../../context';
+import { useNavigate } from 'react-router-dom';
 
 type inputDataForm = {
     search: string,
 }
 
-type Transaction = {
-    titles: string,
-    value: number,
-    cashIn: boolean,
-}
 
 
 export default function Dashboard() {
   const { classes } = useStyles();
-  const { setTransactions, transactions } = useContext(context)
-  const [opened, setOpened] = useState(false)
+  const { setTransactions, transactions } = useContext(context);
+  const [opened, setOpened] = useState(false);
 
-  useEffect(() => {
-    const token = JSON.parse(localStorage.getItem('token') || '')
-    axios.get('https://project-empbank-api.vercel.app/transactions', {
-            headers: {
-                'authorization': token
-            }
-    })
-    .then(response => {  setTransactions(response.data.transactions) })
-
-  }, [])
+  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -43,8 +30,41 @@ export default function Dashboard() {
     }
   })
 
+  function fetchTransactions(){
+    try {
+        const token = JSON.parse(localStorage.getItem('token') || '')
+        axios.get('https://project-empbank-api.vercel.app/transactions', {
+                headers: {
+                    'authorization': token
+                }
+        })
+        .then(response => {  setTransactions(response.data.transactions) });
+    } catch (error) {
+        console.error(error)
+        navigate('/login')  
+    }
+  }
+
+  useEffect(() => {
+    if(form.values.search.length === 0){
+        fetchTransactions()
+    }
+  }, [form.values.search])
+
+
+  useEffect(() => {
+    fetchTransactions()
+  }, [])
+
+
   const handleSubmit = ({ search }: inputDataForm) => {
-    console.log(search);
+    const lowercaseSearch = search.toLowerCase();
+    const transactionsFiltered = transactions
+    .filter(transaction => (
+        transaction.title.toLowerCase().includes(lowercaseSearch) 
+        || transaction.category.toLowerCase().includes(lowercaseSearch)
+    ));
+    setTransactions(transactionsFiltered)
   }
 
   return (
