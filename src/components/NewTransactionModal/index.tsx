@@ -37,6 +37,11 @@ export default function NewTransactionModal({opened, setOpened}: NewTransactionM
 			title: '',
 			value: '',
 			category: '',
+		},
+		validate: {
+			title: (value) => value.length > 0 ? null : 'Insira um título',
+			value: (value) => value.length > 0 ? null : 'Insira o valor',
+			category: (value) => value ? null : 'Escolha uma cetegoria'
 		}
 	});
 
