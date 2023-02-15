@@ -22,7 +22,7 @@ type Transaction = {
 
 type NewTransactionFormData = {
   title: string,
-  value: string,
+  value: number,
   category: string,
 }
 
@@ -35,12 +35,12 @@ export default function NewTransactionModal({opened, setOpened}: NewTransactionM
 	const form = useForm({
 		initialValues: {
 			title: '',
-			value: '',
+			value: 0,
 			category: '',
 		},
 		validate: {
 			title: (value) => value.length > 0 ? null : 'Insira um título',
-			value: (value) => Number(value) > 0 ? null : 'Insira o valor',
+			value: (value) => value > 0 ? null : 'Insira o valor',
 			category: (value) => value ? null : 'Escolha uma cetegoria'
 		}
 	});

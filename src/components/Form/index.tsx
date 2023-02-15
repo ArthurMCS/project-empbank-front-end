@@ -1,9 +1,10 @@
-import { Button, LoadingOverlay, PasswordInput, Stack, TextInput } from '@mantine/core';
+/* eslint-disable no-mixed-spaces-and-tabs */
+import { Button, LoadingOverlay, Notification, PasswordInput, Stack, TextInput } from '@mantine/core';
 import { useStyles } from './style';
 import logo from '../../assets/logoHorizontal.png';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from '@mantine/form';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import React, { useState } from 'react';
 
 interface LoginFormData {
@@ -19,6 +20,7 @@ interface RegisterFormData extends LoginFormData {
 export default function MainForm() {
 	const { classes } = useStyles();
 	const { pathname } = useLocation();
+	const [error, setError] = useState<AxiosError | null>(null);
 	const [visible, setVisible] = useState(false);
 
 	const navigate = useNavigate();
@@ -71,6 +73,7 @@ export default function MainForm() {
 		} catch (error) {
 			setVisible(false);
 			console.error(error);
+			setError(error as AxiosError);
 		}
 
 	};
@@ -95,9 +98,11 @@ export default function MainForm() {
 		} catch (error) {
 			setVisible(false);
 			console.error(error);
+			setError(error as AxiosError);
 		}
 	};
 
+	console.log(error);
 
 	return (
 		<form  
@@ -146,6 +151,13 @@ export default function MainForm() {
 				>
 					{pathname === '/login' ? 'CRIAR CONTA' : 'JÁ TENHO UMA CONTA'}
 				</Button>
+				{
+					error && (
+						<Notification color="red" title="Dados incorretos" onClick={() => setError(null)}>
+							{pathname === '/login' ? 'Verifique o email e a senha' : 'Essa conta já existe!'}
+      					</Notification>
+					)
+				}
 			</Stack>
 		</form>
 	);
