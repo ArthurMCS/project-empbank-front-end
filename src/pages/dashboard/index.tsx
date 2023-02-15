@@ -6,23 +6,23 @@ import Cards from '../../components/Cards';
 import { FiSearch } from 'react-icons/fi';
 import { useForm } from '@mantine/form';
 import TransactionsTable from '../../components/Table';
-import axios from 'axios';
 import NewTransactionModal from '../../components/NewTransactionModal';
 import { context } from '../../context';
-import { useNavigate } from 'react-router-dom';
+
 
 type inputDataForm = {
     search: string,
 }
 
 
-
 export default function Dashboard() {
   const { classes } = useStyles();
-  const { setTransactions, transactions } = useContext(context);
+  const { 
+    fetchTransactions,
+    setSearch,
+} = useContext(context);
   const [opened, setOpened] = useState(false);
 
-  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -30,23 +30,10 @@ export default function Dashboard() {
     }
   })
 
-  function fetchTransactions(){
-    try {
-        const token = JSON.parse(localStorage.getItem('token') || '')
-        axios.get('https://project-empbank-api.vercel.app/transactions', {
-                headers: {
-                    'authorization': token
-                }
-        })
-        .then(response => {  setTransactions(response.data.transactions) });
-    } catch (error) {
-        console.error(error)
-        navigate('/login')  
-    }
-  }
 
   useEffect(() => {
     if(form.values.search.length === 0){
+        setSearch('')
         fetchTransactions()
     }
   }, [form.values.search])
@@ -58,13 +45,7 @@ export default function Dashboard() {
 
 
   const handleSubmit = ({ search }: inputDataForm) => {
-    const lowercaseSearch = search.toLowerCase();
-    const transactionsFiltered = transactions
-    .filter(transaction => (
-        transaction.title.toLowerCase().includes(lowercaseSearch) 
-        || transaction.category.toLowerCase().includes(lowercaseSearch)
-    ));
-    setTransactions(transactionsFiltered)
+      setSearch(search.trim())
   }
 
   return (
@@ -99,12 +80,12 @@ export default function Dashboard() {
                     leftIcon={<FiSearch />}
                     size="lg"
                     type="submit"
-                    disabled={form.values.search.length === 0}
+                    disabled={form.values.search.trim().length === 0}
                 >
                     Buscar
                 </Button>
             </form>
-            <TransactionsTable />
+            <TransactionsTable  />
         </div>
     </Box>
   )

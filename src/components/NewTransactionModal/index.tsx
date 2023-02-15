@@ -95,6 +95,7 @@ export default function NewTransactionModal({opened, setOpened}: NewTransactionM
               radius="md"
               size="lg"
               {...form.getInputProps('title')}
+              maxLength={20}
             />
             <NumberInput
               placeholder="Insira o valor da transação"
