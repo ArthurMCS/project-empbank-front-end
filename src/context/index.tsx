@@ -52,7 +52,7 @@ export default function ContextProvider({ children }: ContextProviderProps) {
     setIsLoading(true);
     const skip = Math.abs(10 - (10 * page))
     const token = JSON.parse(localStorage.getItem('token') || '')
-    axios.get(`http://localhost:3333/transactions?skip=${skip}&search=${search}`, {
+    axios.get(`https://project-empbank-api.vercel.app/transactions?skip=${skip}&search=${search}`, {
             headers: {
                 'authorization': token
             }
@@ -96,7 +96,7 @@ export default function ContextProvider({ children }: ContextProviderProps) {
 
   useEffect(() => {
     fetchTransactions()
-  }, [page, /* search */])
+  }, [page, search])
 
   useEffect(() => {
     fetchValues()
