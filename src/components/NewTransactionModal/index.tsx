@@ -40,7 +40,7 @@ export default function NewTransactionModal({opened, setOpened}: NewTransactionM
 		},
 		validate: {
 			title: (value) => value.length > 0 ? null : 'Insira um título',
-			value: (value) => value ? null : 'Insira o valor',
+			value: (value) => Number(value) > 0 ? null : 'Insira o valor',
 			category: (value) => value ? null : 'Escolha uma cetegoria'
 		}
 	});
